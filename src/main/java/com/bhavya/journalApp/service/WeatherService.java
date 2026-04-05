@@ -2,6 +2,7 @@ package com.bhavya.journalApp.service;
 
 import com.bhavya.journalApp.api.response.WeatherResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -10,7 +11,9 @@ import org.springframework.web.client.RestTemplate;
 
 @Service
 public class WeatherService {
-    public static final String APIKEY="2ac4e6427483fef3b4197b533bdb30f6";
+
+    @Value("${weather.api.key}")
+    public String APIKEY;
 
     public static final String API="https://api.weatherstack.com/current?access_key=API_KEY&query=CITY";
 
