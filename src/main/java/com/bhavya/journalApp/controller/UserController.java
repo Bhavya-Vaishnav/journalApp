@@ -1,8 +1,10 @@
 package com.bhavya.journalApp.controller;
 
+import com.bhavya.journalApp.api.response.WeatherResponse;
 import com.bhavya.journalApp.entity.User;
 import com.bhavya.journalApp.repository.UserRepository;
 import com.bhavya.journalApp.service.UserService;
+import com.bhavya.journalApp.service.WeatherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +25,9 @@ public class UserController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private WeatherService weatherService;
 
     @PutMapping
     public ResponseEntity<?> updateUser(@RequestBody User user) {
@@ -51,5 +56,13 @@ public class UserController {
         userService.deleteByUserName(authentication.getName());
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @GetMapping
+    public ResponseEntity<?> greetings(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        int weather = weatherService.getWeather("Mumbai").getCurrent().getFeelslike();
+        return new ResponseEntity<>("Hi "+authentication.getName()+" The weather feels like "+weather,HttpStatus.OK);
+    }
+
 
 }
